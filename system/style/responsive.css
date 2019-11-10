@@ -1,0 +1,121 @@
+@media all and (max-width: 905px) {
+    main {
+        margin-top: 8.5em;
+    }
+
+    header {
+        height: 7.5em;
+        flex-direction: column;
+        /*justify-content: space-around;*/
+        align-items: center;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    #mainNav {
+        width: 300px;
+        padding-bottom: 10px;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+    }
+
+    #mainNav > * {
+        font-size: 36px;
+        display: none;
+        order: 1;
+        border-width: 6px;
+
+        background-color: #d4d3d3;
+        box-shadow: 0px 1.5px 7px 0px rgba(0, 0, 0, 0.55);
+    }
+
+    .navlink:hover,
+    .navlink:active {
+        background-color: rgb(235, 235, 235);
+    }
+
+    #current {
+        display: block;
+        order: 0;
+
+        background-color: white;
+    }
+
+    #current::after {
+        content: "▼";
+        float: right;
+    }
+
+    #mainNav:hover > .navlink,
+    #mainNav:active > .navlink {
+        top: 120px;
+        display: block;
+    }
+
+    #dropdown {
+        order: 2;
+        width: auto;
+    }
+
+    .material-icons.md-36 {
+        font-size: 36px;
+    }
+    .sourceCitationText {
+        margin-left: calc(100% - 130px);
+    }
+}
+
+@media all and (max-width: 464px) {
+    .navlink {
+        font-size: 22px;
+    }
+
+    .material-icons.md-36 {
+        font-size: 22px;
+    }
+
+    #mainNav {
+        top: 40px;
+    }
+}
+
+@media all and (max-width: 1430px) and (min-width: 1140px) {
+    .navlink {
+        font-size: 24px;
+        border-width: 3px;
+    }
+
+    #mainNav {
+        height: 41px;
+    }
+
+    .material-icons.md-36 {
+        font-size: 24px;
+    }
+
+    #dropdown {
+        width: 150px;
+    }
+}
+
+@media all and (max-width: 1140px) and (min-width: 905px) {
+    .navlink {
+        font-size: 0;
+        border-width: 3px;
+    }
+
+    .navlink:hover,
+    .navlink:active {
+        border-width: 3px;
+    }
+
+    .material-icons.md-36 {
+        font-size: 48px;
+    }
+    #dropdown {
+        width: 66px;
+    }
+}
