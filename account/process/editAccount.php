@@ -63,6 +63,5 @@ if (isset($_POST['editForm'])) {
     $_SESSION['errorMessage'] = "Error during process";
 }
 
-if(!editProcess($edit,$dbConnection,$errorMsg,$_SESSION['idUser'],"../index.php?content=edit")) {
-    header("Location: ../index.php?content=edit");
-}
+editProcess($edit,$dbConnection,$_SESSION['idUser'],"../index.php?content=edit");
+header("Location: ../index.php?content=edit");

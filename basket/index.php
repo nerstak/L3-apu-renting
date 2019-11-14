@@ -10,7 +10,6 @@ include_once(VIEW_NAVIGATION);
 echo '<main>';
 
 echoErrors();
-echoSuccess();
 
 // Display
 if (isset($_SESSION['booking']) && !empty($_SESSION['booking'])) {

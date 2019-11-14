@@ -6,16 +6,9 @@
 
     require_once(RES_SQL);
 
-    if($login['flag'] && !$register['flag'] && !$forgot['flag'] && !$edit['flag']) {
-        if(!loginProcess($login,$dbConnection,$errorMsg)) {
-            $_SESSION['errorMessage'] = $errorMsg;
-            header("Location: portal.php");
-        }
-    } else if(!$login['flag'] && $register['flag'] && !$forgot['flag'] && !$edit['flag']) {
-        if(!registerProcess($register,$dbConnection,$errorMsg)) {
-            $_SESSION['errorMessage'] = $errorMsg;
-            header("Location: portal.php");
-        }
-    } else if(!$login['flag'] && !$register['flag'] && $forgot['flag'] && !$edit['flag']) {
 
+    if($login['flag'] && !$register['flag'] && !$forgot['flag']) {
+        loginProcess($login,$dbConnection);
+    } else if(!$login['flag'] && $register['flag'] && !$forgot['flag']) {
+        registerProcess($register,$dbConnection);
     }

@@ -9,6 +9,7 @@ require_once(RES_UTIL);
 require_once(RES_SQL);
 
 
+$edit['flag'] = true;
 checkEdit($edit);
 
 /* Processing URL */
@@ -26,6 +27,11 @@ if($edit['flag']) {
 include_once(VIEW_HEADER);
 include_once(VIEW_NAVIGATION);
 include_once(VIEW_ADMIN_NAV);
+
+
+echoErrors();
+echoSuccess();
+
 
 if(isset($_GET['content']) && $_GET['content'] == 'edit' && isset($_GET['content']) && !empty(isset($_GET['content']))) {
     include_once('process/editAccount.php');
@@ -90,6 +96,5 @@ function checkEdit(&$edit) {
         }
     } else {
         $edit['flag'] = false;
-        $_SESSION['errorMessage'] = "Error during process";
     }
 }

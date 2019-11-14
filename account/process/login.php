@@ -18,7 +18,7 @@ if(isset($_POST['loginForm'])) {
     $login['flag'] = false;
 }
 
-function loginProcess($login, mysqli $dbConnection, &$errorMessage) {
+function loginProcess($login, mysqli $dbConnection) {
     if($stmt = $dbConnection->prepare("SELECT password,idUser FROM user WHERE email=?")) {
         $stmt->bind_param('s', $login['email']);
         $stmt->execute();
@@ -35,14 +35,14 @@ function loginProcess($login, mysqli $dbConnection, &$errorMessage) {
                 header("Location: index.php");
                 return true;
             } else {
-                $errorMessage = "Incorrect password";
+                $_SESSION['errorMessage'] = "Incorrect password";
             }
         } else {
-            $errorMessage = "Unknown email address";
+            $_SESSION['errorMessage'] = "Unknown email address";
         }
     }
     if (!$stmt) {
-        $errorMessage = "Error of connection";
+        $_SESSION['errorMessage'] = "Error of connection";
     }
     return false;
 }

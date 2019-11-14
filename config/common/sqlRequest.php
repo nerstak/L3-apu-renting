@@ -7,8 +7,12 @@
  * @param $redirection String page to go if success
  * @return boolean Success of the task
  */
-function editProcess($edit, mysqli $dbConnection, &$errorMsg, $idUser, $redirection)
+function editProcess($edit, mysqli $dbConnection, $idUser, $redirection)
 {
+    if(!verifyUniquenessEmail($dbConnection,$edit['email'],$idUser)) {
+        $_SESSION['errorMessage'][] = "Mail address already used";
+        return false;
+    }
     $query = null;
     if ($edit['passwordHash'] != null) {
         // If we change the password
@@ -29,7 +33,7 @@ function editProcess($edit, mysqli $dbConnection, &$errorMsg, $idUser, $redirect
         header("Location: " . $redirection);
         return true;
     }
-    $errorMsg = "Unable to update account (user does not exists)";
+    $_SESSION['errorMessage'][] = "Unable to update account (user does not exists)";
     return false;
 }
 
@@ -44,7 +48,7 @@ function dataSelectionHistory(mysqli $dbConnection)
         $data = $stmt->get_result();
 
         while ($row = $data->fetch_assoc()) {
-            $name = $result = mysqli_query($dbConnection, "SELECT name FROM equipment WHERE idEquipment=" . $row['idEquipment']);
+            $name = mysqli_query($dbConnection, "SELECT name FROM equipment WHERE idEquipment=" . $row['idEquipment']);
             echo '<tr>';
             echo '<td>' . $row['idBooking'] . '</td>';
             echo '<td>' . $name->fetch_assoc()['name'] . '</td>';
@@ -210,7 +214,7 @@ function dataSelectionBookingFromEquipment(mysqli $dbConnection, $idEquipment)
         $tmp = $stmt->get_result();
 
         $data = array();
-        while($row = $tmp->fetch_assoc()) {
+        while ($row = $tmp->fetch_assoc()) {
             $data[] = $row;
         }
 
@@ -227,18 +231,19 @@ function dataSelectionBookingFromEquipment(mysqli $dbConnection, $idEquipment)
  * @param $errors Array return by reference
  * @return bool Success of operation
  */
-function updateBookingStatus(mysqli $dbConnection,$id,$newStatus,&$errors) {
-    if($stmt = $dbConnection->prepare("SELECT status FROM booking WHERE idBooking=?")) {
-        $stmt->bind_param("s",$id);
+function updateBookingStatus(mysqli $dbConnection, $id, $newStatus, &$errors)
+{
+    if ($stmt = $dbConnection->prepare("SELECT status FROM booking WHERE idBooking=?")) {
+        $stmt->bind_param("s", $id);
         $stmt->bind_result($status);
         $stmt->execute();
 
         $stmt->fetch();
         $stmt->close();
 
-        if(isset($status) && in_array($status,['Pending','Approved','InUse','Canceled'])) {
-            if($stmt = $dbConnection->prepare("UPDATE booking SET status=? WHERE idBooking=?")) {
-                $stmt->bind_param("ss",$newStatus,$id);
+        if (isset($status) && in_array($status, ['Pending', 'Approved', 'InUse', 'Canceled'])) {
+            if ($stmt = $dbConnection->prepare("UPDATE booking SET status=? WHERE idBooking=?")) {
+                $stmt->bind_param("ss", $newStatus, $id);
                 $stmt->execute();
                 return true;
             }
@@ -249,5 +254,39 @@ function updateBookingStatus(mysqli $dbConnection,$id,$newStatus,&$errors) {
         return false;
     }
     $errors[] = "Error of connection to database (incorrect ID)";
+    return false;
+}
+
+/** Verify if an email is already in database
+ * @param mysqli $dbConnection Connection to database
+ * @param $email String to check
+ * @param int $id of user we want to exclude
+ * @return bool Uniqueness of Email
+ */
+function verifyUniquenessEmail(mysqli $dbConnection, $email, $id = -1)
+{
+    if ($stmt = $dbConnection->prepare("SELECT idUser FROM user WHERE email=?")) {
+        $stmt->bind_param("s", $email);
+        $stmt->bind_result($status);
+        $stmt->execute();
+
+        $tmp = $stmt->get_result();
+        $data = array();
+        while($row = $tmp->fetch_assoc()) {
+            $data[] = $row;
+        }
+
+        if (count($data) > 1) {
+            return false;
+        } else if (count($data) == 0) {
+            return true;
+        } else {
+            if ($data[0]['idUser'] == $id) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
     return false;
 }

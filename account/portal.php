@@ -17,6 +17,7 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']==true) {
 }
 
 echoErrors();
+echoSuccess();
 
 
 if (isset($_GET['content'])) {
@@ -42,7 +43,7 @@ include_once (VIEW_END);
  */
 function loadLogin()
 {
-    echo '<form class="classicForm boxStyle" action="portal.php" method="POST">
+    echo '<form class="classicForm boxStyle" action="portal.php?content=login" method="POST">
             <h2>Login</h2>
             <div><label>Email </label><br><input type="email" name="mailLogin" required></div>
             <div><label>Password </label><br><input type="password" name="passwordLogin" required>
@@ -58,7 +59,7 @@ function loadLogin()
  * Display form of register
  */
 function loadRegister() {
-    echo '<form class="classicForm boxStyle" autocomplete="off" action="portal.php" method="POST">
+    echo '<form class="classicForm boxStyle" autocomplete="off" action="portal.php?content=register" method="POST">
             <h2>Register a new account</h2>
             <div>
                 <label>Email </label><br><input type="email" name="mailRegister" required>

@@ -13,6 +13,7 @@ include_once(VIEW_HEADER);
 include_once(VIEW_NAVIGATION);
 include_once(VIEW_ACCOUNT_NAV);
 
+
 echoErrors();
 echoSuccess();
 

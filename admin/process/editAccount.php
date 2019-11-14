@@ -9,10 +9,6 @@ if (!isset($_GET['id'])) {
     header("Location: index.php");
 }
 
-echoErrors();
-echoSuccess();
-
-
 // Display values
 $dataUser = dataSelectionUser($dbConnection, $_GET['id']);
 
