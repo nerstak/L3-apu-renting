@@ -21,7 +21,6 @@ if(isset($_POST['mailLogin']) && isset($_POST['passwordLogin'])) {
         $stmt->bind_result($passwordHash, $id);
         $stmt->fetch();
 
-        var_dump($passwordHash);
         if ($passwordHash) {
             if (password_verify($_POST['passwordLogin'], $passwordHash)) {
                 $_SESSION['admin'] = true;
@@ -30,10 +29,10 @@ if(isset($_POST['mailLogin']) && isset($_POST['passwordLogin'])) {
                 $_SESSION['logged'] = true;
                 header("Location: index.php");
             } else {
-                $_SESSION['errorMessage'][] = 'Incorrect log';
+                $_SESSION['errorMessage'][] = "Incorrect login";
             }
         } else {
-            $_SESSION['errorMessage'][] = 'Incorrect log';
+            $_SESSION['errorMessage'][] = "Incorrect login";
         }
     }
 }

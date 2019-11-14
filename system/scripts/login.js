@@ -8,9 +8,9 @@ function checkRegister() {
 
 
     var tooltip1 = document.getElementById("errorMessageRegisterP1");
-    if (password1 != 0 && password1.length < 10) {
+    if (password1 != 0 && password1.length < 12) {
         tooltip1.style.display = "inline-block";
-        tooltip1.childNodes[3].innerText = "Please use a password of at least 10 characters";
+        tooltip1.childNodes[3].innerText = "Please use a password of at least 12 characters";
         nbError++;
     } else {
         tooltip1.style.display = "none";

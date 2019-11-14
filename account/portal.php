@@ -70,7 +70,7 @@ function loadRegister() {
                 <label>Last names </label><br><input type="text" name="lastnamesRegister" required>
             </div>
             <div>
-                    <label>Address:</label><br><textarea name="addressRegister" value="default">Default address</textarea>
+                    <label>Address:</label><br><textarea name="addressRegister" value="default"></textarea>
                 </div>
             <div>
                 <label>Password </label><br>

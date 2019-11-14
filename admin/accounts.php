@@ -51,7 +51,7 @@ function checkEdit(&$edit) {
             $edit['flag'] = false;
         }
 
-        $boolEval = $_POST['passwordEdit1'] == $_POST['passwordEdit2'] && strlen($_POST['passwordEdit1'] <= 10);
+        $boolEval = $_POST['passwordEdit1'] == $_POST['passwordEdit2'] && strlen($_POST['passwordEdit1'] <= 12);
         if (isset($_POST['passwordEdit1']) && isset($_POST['passwordEdit2']) && $edit['flag'] && !empty($_POST['passwordEdit1'])) {
             if($boolEval) {
                 $edit['passwordHash'] = password_hash($_POST['passwordEdit1'], PASSWORD_DEFAULT);

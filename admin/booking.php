@@ -22,6 +22,7 @@ echo '<div class="boxStyle">
                     <th>Booking ID</th>
                     <th>Name User</th>
                     <th>Product</th>
+                    <th>Period</th>
                     <th>Due</th>
                     <th>Status</th>
                     <th></th>
@@ -46,6 +47,7 @@ function dataSelectionBooking(mysqli $dbConnection) {
             echo '<td>' . htmlspecialchars($row['idBooking']) . '</td>';
             echo '<td>' . htmlspecialchars($user['firstName'].' '.$user['lastNames']). '</td>';
             echo '<td>' . htmlspecialchars($product['name'].' '.$product['brand']) . '</td>';
+            echo '<td>' . $row['dateStart'] . ' - ' . $row['dateEnd'] . '</td>';
             echo '<td>' . htmlspecialchars($row['price']) . '</td>';
             echo '<td>' . htmlspecialchars($row['status']) . '</td>';
             echo '<td>';

@@ -52,6 +52,11 @@ function dataSelectionHistory(mysqli $dbConnection)
             echo '<td>' . $row['dateEnd'] . '</td>';
             echo '<td>' . $row['status'] . '</td>';
             echo '<td>' . $row['price'] . '</td>';
+            echo '<td>';
+            if (in_array($row['status'], ["Pending", "Approved"])) {
+                echo '<a href="process/statusProcess.php?status=Canceled&id=' . $row['idBooking'] . '"><button type="button" class="btn-danger">Cancel</button></a>';
+            }
+            echo '</td>';
             echo '</tr>';
         }
     }
@@ -98,13 +103,13 @@ function allProductsDisplay(mysqli $dbConnection, $search = NULL, $type = NULL)
 
     // Correct parameters
     if (isset($search) && !empty($search) && isset($type) && !empty($type)) {
-        $tmp = "%".$search."%";
-        $stmt->bind_param('sss', $tmp,$tmp,  $type);
+        $tmp = "%" . $search . "%";
+        $stmt->bind_param('sss', $tmp, $tmp, $type);
     } else if (isset($search) && !empty($search)) {
-        $tmp = "%".$search."%";
-        $stmt->bind_param('ss', $tmp,$tmp);
+        $tmp = "%" . $search . "%";
+        $stmt->bind_param('ss', $tmp, $tmp);
     } else if (isset($type) && !empty($type)) {
-        $stmt->bind_param('s',$type);
+        $stmt->bind_param('s', $type);
     }
 
     $stmt->execute();
@@ -200,24 +205,49 @@ function dataSelectionTripod(mysqli $dbConnection, $idEquipment)
 function dataSelectionBookingFromEquipment(mysqli $dbConnection, $idEquipment)
 {
     if ($stmt = $dbConnection->prepare("SELECT idBooking, dateStart, dateEnd, idEquipment, stock, idUser, status FROM booking WHERE idEquipment=?")) {
-        $data = array();
         $stmt->bind_param('s', $idEquipment);
         $stmt->execute();
+        $tmp = $stmt->get_result();
 
-        $idBooking = null;
-        $dateStart = null;
-        $dateEnd = null;
-        $idEquipment = null;
-        $stock = null;
-        $idUser = null;
-        $status = null;
-        $stmt->bind_result($idBooking, $dateStart, $dateEnd, $idEquipment, $stock, $idUser, $status);
-        while ($row = $stmt->fetch()) {
+        $data = array();
+        while($row = $tmp->fetch_assoc()) {
             $data[] = $row;
         }
 
-        $stmt->close();
         return $data;
     }
     return null;
+}
+
+
+/** Update the status of a booking
+ * @param mysqli $dbConnection Connection to database
+ * @param $id int ID of the book
+ * @param $newStatus string New value for the status
+ * @param $errors Array return by reference
+ * @return bool Success of operation
+ */
+function updateBookingStatus(mysqli $dbConnection,$id,$newStatus,&$errors) {
+    if($stmt = $dbConnection->prepare("SELECT status FROM booking WHERE idBooking=?")) {
+        $stmt->bind_param("s",$id);
+        $stmt->bind_result($status);
+        $stmt->execute();
+
+        $stmt->fetch();
+        $stmt->close();
+
+        if(isset($status) && in_array($status,['Pending','Approved','InUse','Canceled'])) {
+            if($stmt = $dbConnection->prepare("UPDATE booking SET status=? WHERE idBooking=?")) {
+                $stmt->bind_param("ss",$newStatus,$id);
+                $stmt->execute();
+                return true;
+            }
+            $errors[] = "Error of connection to database (incorrect ID for update)";
+            return false;
+        }
+        $errors[] = "Impossible to alter the actual status";
+        return false;
+    }
+    $errors[] = "Error of connection to database (incorrect ID)";
+    return false;
 }

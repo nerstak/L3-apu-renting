@@ -10,6 +10,7 @@ include_once(VIEW_NAVIGATION);
 echo '<main>';
 
 echoErrors();
+echoSuccess();
 
 // Display
 if (isset($_SESSION['booking']) && !empty($_SESSION['booking'])) {
@@ -72,7 +73,7 @@ function dataBookDisplay(mysqli $dbConnection, $listBook)
                 echo '<td>' . htmlspecialchars($row['brand']) . '</td>';
                 echo '<td>' . htmlspecialchars($singleBook['dateStart']->format('d-m-y')) . '</td>';
                 echo '<td>' . htmlspecialchars($singleBook['dateEnd']->format('d-m-y')) . '</td>';
-                echo '<td>' . $price . '</td>';
+                echo '<td>' . htmlspecialchars($price) . '</td>';
                 echo '<td><a href="process/deleteBook.php?id=' . $i++ . '"><button type="button" class="btn-danger">Delete</button></a></td>';
                 echo '</tr>';
             }

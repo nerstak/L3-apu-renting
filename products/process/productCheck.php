@@ -11,7 +11,6 @@ $set = isset($_POST['idProduct']) && isset($_POST['fromDate']) && isset($_POST['
 $correct = is_numeric($_POST['idProduct']) && $_POST['idProduct'] > 0 && DateTime::createFromFormat('Y-m-d', $_POST['fromDate']) && DateTime::createFromFormat('Y-m-d', $_POST['toDate']);
 
 
-var_dump($_POST);
 // Declaring variables
 $dateFrom = null;
 $dateTo = null;
@@ -35,7 +34,6 @@ if($set && $correct) {
     $renting['id'] = $_POST['idProduct'];
 } else {
     $renting['flag'] = false;
-    echo $set .'-'.$correct;
     $_SESSION['errorMessage'][] = "Incorrect inputs";
 }
 
@@ -52,13 +50,11 @@ if(empty($_SESSION['errorMessage'])) {
 
     // Checking availability
     foreach ($listRenting as $book) {
-        $dateStartCurrent = DateTime::createFromFormat('d-m-y', $book['dateStart']);
-        $dateEndCurrent = DateTime::createFromFormat('d-m-y', $book['dateEnd']);
+        $dateStartBook = DateTime::createFromFormat('d-m-y', $book['dateStart']);
+        $dateEndBook = DateTime::createFromFormat('d-m-y', $book['dateEnd']);
 
-        if(($dateTo < $dateStartCurrent || $dateEndCurrent < $dateFrom) && in_array($book['status'],['Approved','Pending'])) {
-            // No overlap of period
-            break;
-        } else {
+        if (max($dateFrom, $dateStartBook) < min($dateTo, $dateEndBook) && in_array($book['status'], ['Approved', 'Pending', 'InUse'])) {
+            // Overlap of period
             $i += $book['stock'];
         }
     }

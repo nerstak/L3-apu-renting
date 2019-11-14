@@ -9,7 +9,7 @@ if (isset($_POST['registerForm'])) {
         $register['flag'] = false;
     }
 
-    $boolEval = $_POST['passwordRegister1'] == $_POST['passwordRegister2'] && strlen($_POST['passwordRegister1'] <= 10);
+    $boolEval = $_POST['passwordRegister1'] == $_POST['passwordRegister2'] && strlen($_POST['passwordRegister1'] <= 12);
     if (isset($_POST['passwordRegister1']) && isset($_POST['passwordRegister2']) && $register['flag'] && $boolEval) {
         $register['passwordHash'] = password_hash($_POST['passwordRegister1'], PASSWORD_DEFAULT);
 

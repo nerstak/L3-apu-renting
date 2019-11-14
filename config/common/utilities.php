@@ -22,7 +22,7 @@ function pictureUpload($files, $nameField, $newName, $directoryToMove, $maxSize,
     }
 
     if($fileSize > $maxSize) {
-        $errors[] = "File greater than max size (3MB)";
+        $errors[] = "File greater than max size ("+ $maxSize +"b)";
     }
 
     if(empty($errors)) {
@@ -40,16 +40,16 @@ function pictureUpload($files, $nameField, $newName, $directoryToMove, $maxSize,
  * Display every error messages
  */
 function echoErrors() {
-    if(isset($_SESSION['successMessage']) && !$_SESSION['successMessage']) {
+    if(isset($_SESSION['errorMessage']) && !empty($_SESSION['errorMessage'])) {
         echo '<div class="errorMessage">';
-        foreach ($_SESSION['successMessage'] as $e) {
+        foreach ($_SESSION['errorMessage'] as $e) {
             echo "<p>".$e.'</p>';
-            if($e !== end($_SESSION['successMessage'])) {
+            if($e !== end($_SESSION['errorMessage'])) {
                 echo '<br/>';
             }
         }
         echo '</div>';
-        $_SESSION['successMessage'] = null;
+        $_SESSION['errorMessage'] = null;
     }
 }
 

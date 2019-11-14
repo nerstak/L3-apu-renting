@@ -19,18 +19,16 @@ if(isset($_SESSION['booking']) && !empty($_SESSION['booking'])) {
         // Check availability
         $i = 0;
         foreach ($listRenting as $book) {
-            $dateStartCurrent = DateTime::createFromFormat('Y-m-d', $book['dateStart']);
-            $dateEndCurrent = DateTime::createFromFormat('Y-m-d', $book['dateEnd']);
+            $dateStartBook = DateTime::createFromFormat('d-m-y', $book['dateStart']);
+            $dateEndBook = DateTime::createFromFormat('d-m-y', $book['dateEnd']);
 
-            if(($current['dateEnd'] < $dateEndCurrent || $dateStartCurrent < $current['dateStart']) && in_array($book['status'],['Approved','Pending'])) {
-                // No overlap of period
-                break;
-            } else {
+            if (max($current['dateStart'], $dateStartBook) < min($current['dateEnd'], $dateEndBook) && in_array($book['status'], ['Approved', 'Pending', 'InUse'])) {
+                // Overlap of period
                 $i += $book['stock'];
             }
         }
 
-        if(!($product['stock'] - $i >= $current['stock']) && $product['visible']) {
+        if(($product['stock'] - $i < $current['stock']) || !$product['visible']) {
             $_SESSION['errorMessage'][] = $product['name'] . ' is not available anymore';
         }
     }
@@ -44,7 +42,7 @@ if(isset($_SESSION['booking']) && !empty($_SESSION['booking'])) {
         }
         if(empty($_SESSION['errorMessage'])) {
             $_SESSION['booking'] = null;
-            $_SESSION['successMessage'][] = "Order placed! Please wait for the shop to validate it";
+            $_SESSION['successMessage'][] = "Order placed! Please wait for the store to validate it";
         }
     }
     header("Location: ../index.php");

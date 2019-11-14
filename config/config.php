@@ -21,5 +21,5 @@
 
 
     define('CFG_DB_CONNECTION', DIR_CFG . 'connection.php');
-    define('RES_UTIL', DIR_BASE. 'resources/PHP/utilities.php');
-    define('RES_SQL', DIR_BASE . 'resources/PHP/sqlRequest.php');
+    define('RES_UTIL', DIR_BASE. 'config/common/utilities.php');
+    define('RES_SQL', DIR_BASE . 'config/common/sqlRequest.php');

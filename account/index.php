@@ -85,6 +85,7 @@ function loadHistory(mysqli $dbConnection)
                     <th>Ending Date</th>
                     <th>Status</th>
                     <th>Price</th>
+                    <th></th>
                 </tr> ';
     dataSelectionHistory($dbConnection);
 
