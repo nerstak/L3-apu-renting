@@ -58,6 +58,8 @@ if (isset($_POST['editForm'])) {
     if(isset($_POST['roleEdit']) && $_POST['roleEdit'] == 'admin' && $_SESSION['admin'] == true ) {
         $edit['role'] = 'admin';
     }
+
+    $edit['visible'] = 1;
 } else {
     $edit['flag'] = false;
     $_SESSION['errorMessage'][] = "Error during process";

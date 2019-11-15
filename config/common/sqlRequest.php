@@ -2,7 +2,6 @@
 /** Update an user
  * @param $edit Array containing informations about the user
  * @param mysqli $dbConnection Mysql connection
- * @param $errorMsg String Return by reference of error
  * @param $idUser Int User to update
  * @param $redirection String page to go if success
  * @return boolean Success of the task
@@ -16,16 +15,16 @@ function editProcess($edit, mysqli $dbConnection, $idUser, $redirection)
     $query = null;
     if ($edit['passwordHash'] != null) {
         // If we change the password
-        $query = "UPDATE user  SET firstname = ?, lastnames = ?, email = ?, password = ?, address = ?, role = ? WHERE idUser = ?";
+        $query = "UPDATE user  SET firstname = ?, lastnames = ?, email = ?, password = ?, address = ?, role = ?, visible = ? WHERE idUser = ?";
     } else {
-        $query = "UPDATE user  SET firstname = ?, lastnames = ?, email = ?, address = ?, role = ? WHERE idUser = ?";
+        $query = "UPDATE user  SET firstname = ?, lastnames = ?, email = ?, address = ?, role = ?, visible = ? WHERE idUser = ?";
     }
     if ($stmt = $dbConnection->prepare($query)) {
         if ($edit['passwordHash'] != null) {
             // If we change the password
-            $stmt->bind_param('ssssssd', $edit['firstName'], $edit['lastName'], $edit['email'], $edit['passwordHash'], $edit['address'], $edit['role'], $idUser);
+            $stmt->bind_param('sssssssd', $edit['firstName'], $edit['lastName'], $edit['email'], $edit['passwordHash'], $edit['address'], $edit['role'], $edit['visible'], $idUser);
         } else {
-            $stmt->bind_param('sssssd', $edit['firstName'], $edit['lastName'], $edit['email'], $edit['address'], $edit['role'], $idUser);
+            $stmt->bind_param('ssssssd', $edit['firstName'], $edit['lastName'], $edit['email'], $edit['address'], $edit['role'], $edit['visible'], $idUser);
         }
 
         $stmt->execute();
@@ -73,10 +72,10 @@ function dataSelectionHistory(mysqli $dbConnection)
  */
 function dataSelectionUser(mysqli $dbConnection, $idUser)
 {
-    if ($stmt = $dbConnection->prepare("SELECT firstname,lastnames,email,address,role FROM user WHERE idUser=?")) {
+    if ($stmt = $dbConnection->prepare("SELECT firstname,lastnames,email,address,role,visible FROM user WHERE idUser=?")) {
         $data = array();
         $stmt->bind_param('s', $idUser);
-        $stmt->bind_result($data['firstName'], $data['lastNames'], $data['email'], $data['address'], $data['role']);
+        $stmt->bind_result($data['firstName'], $data['lastNames'], $data['email'], $data['address'], $data['role'],$data['visible']);
         $stmt->execute();
         $stmt->fetch();
         return $data;
@@ -290,7 +289,7 @@ function verifyUniquenessEmail(mysqli $dbConnection, $email, $id = -1)
     }
     return false;
 }
-
+/*
 function verifyUserInRental(mysqli $dbConnection, $id) {
 
-}
+}*/

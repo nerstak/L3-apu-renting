@@ -6,16 +6,15 @@
 require_once(RES_SQL);
 
 if (!isset($_GET['id'])) {
-    header("Location: index.php");
+    header("Location: accounts.php");
 }
 
 // Display values
 $dataUser = dataSelectionUser($dbConnection, $_GET['id']);
 
-echo '<div id="editAccount" class="boxStyle"><form class="classicForm" autocomplete="off" action="accounts.php" method="POST">
+echo '<div id="editAccount" class="boxStyle"><form class="classicForm" autocomplete="off" action="accounts.php?content=edit&id='.$_GET['id'].'" method="POST">
                 <h2>Update information</h2>';
-
-echo ' <input type="hidden" name="idEdit" value="' . $_GET['id'] . '">';
+echo '<input type="hidden" name="idEdit" value="' . $_GET['id'] . '">';
 echo '<div>
                     <label>Email </label><br><input type="email" name="mailEdit" value="' . $dataUser['email'] . '" required>
                 </div>';
@@ -53,8 +52,13 @@ echo '<div>
                         <span class="tooltipText"></span>
                     </div>
                 </div>
-                <p style="display:none" id="errorMessageEdit"></p>
-                <button id="editButton" type="submit" name="editForm" class="btn-success">Edit account</button>
+                <p style="display:none" id="errorMessageEdit"></p>';
+
+$select = $dataUser['visible'] == true ? "selected" : "";
+echo '<div><label>Visible: </label><br><select name="visibleEdit"><option value="0">False</option><option value="1" ' . $select . '>True</option></select></div>';
+
+
+echo'<button id="editButton" type="submit" name="editForm" class="btn-success">Edit account</button>
             </form>
         </div>';
 

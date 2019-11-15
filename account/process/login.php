@@ -19,7 +19,7 @@ if(isset($_POST['loginForm'])) {
 }
 
 function loginProcess($login, mysqli $dbConnection) {
-    if($stmt = $dbConnection->prepare("SELECT password,idUser,role FROM user WHERE email=?")) {
+    if($stmt = $dbConnection->prepare("SELECT password,idUser,role FROM user WHERE email=? AND visible=1")) {
         $stmt->bind_param('s', $login['email']);
         $stmt->execute();
         $stmt->bind_result($passwordHash,$id,$role);

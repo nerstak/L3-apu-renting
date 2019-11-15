@@ -11,6 +11,7 @@ include_once(VIEW_NAVIGATION);
 include_once(VIEW_ADMIN_NAV);
 
 /* Display different content according to url */
+/*
 if(isset($_GET['content'])) {
     switch ($_GET['content']) {
         case 'newEquipment': include_once ('process/newProduct.php');break;
@@ -21,7 +22,8 @@ if(isset($_GET['content'])) {
     }
 } else {
     include_once('process/accountsDisplay.php');
-}
+}*/
+header("Location: accounts.php");
 
 
 echo '</main>';

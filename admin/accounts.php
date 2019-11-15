@@ -11,12 +11,12 @@ require_once(RES_SQL);
 
 $edit['flag'] = true;
 checkEdit($edit);
+var_dump($edit);
 
 /* Processing URL */
 if($edit['flag']) {
-    if(!editProcess($edit,$dbConnection,$errorMsg,$_POST['idEdit'],"index.php")) {
-        $_SESSION['errorMessage'][] = $errorMsg;
-        header("Location: index.php?content=edit&id=".$_POST['idUser']);
+    if(!editProcess($edit,$dbConnection,$_POST['idEdit'],"accounts.php")) {
+        header("Location: accounts.php?content=edit&id=".$_POST['idUser']);
     }
 }
 
@@ -93,6 +93,13 @@ function checkEdit(&$edit) {
         $edit['role'] = 'user';
         if(isset($_POST['roleEdit']) && $_POST['roleEdit'] == 'admin' && $_SESSION['admin'] == true ) {
             $edit['role'] = 'admin';
+        }
+
+        if (isset($_POST['visibleEdit']) && in_array($_POST['visibleEdit'], [0, 1])) {
+            $edit['visible'] = $_POST['visibleEdit'];
+        } else {
+            $_SESSION['errorMessage'][] = "Incorrect visibility";
+            $edit['flag'] = false;
         }
     } else {
         $edit['flag'] = false;

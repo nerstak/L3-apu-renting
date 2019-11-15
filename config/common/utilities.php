@@ -13,7 +13,6 @@ function pictureUpload($files, $nameField, $newName, $directoryToMove, $maxSize,
     $fileName = $files[$nameField]['name'];
     $fileSize = $files[$nameField]['size'];
     $fileTmpName  = $files[$nameField]['tmp_name'];
-    $fileType = $files[$nameField]['type'];
     $tmp = explode('.',$fileName);
     $fileExtension = strtolower(end($tmp));
 
@@ -22,7 +21,7 @@ function pictureUpload($files, $nameField, $newName, $directoryToMove, $maxSize,
     }
 
     if($fileSize > $maxSize) {
-        $errors[] = "File greater than max size ("+ $maxSize +"b)";
+        $errors[] = "File greater than max size (". $maxSize ."b)";
     }
 
     if(empty($errors)) {
