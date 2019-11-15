@@ -3,5 +3,6 @@
 session_start();
 
 if(!isset($_SESSION['admin']) || $_SESSION['admin'] == false) {
-    header("Location: /Renting/admin/login.php");
+    $_SESSION['errorMessage'][] = "You must be a logged admin";
+    header("Location: /Renting/account/index.php");
 }

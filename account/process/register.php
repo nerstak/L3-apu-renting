@@ -61,6 +61,6 @@ function registerProcess($register, mysqli $dbConnection)
         $_SESSION['successMessage'][] = "Account created";
         return true;
     }
-    $_SESSION['errorMessage'] = "Unable to create account";
+    $_SESSION['errorMessage'][] = "Unable to create account";
     return false;
 }

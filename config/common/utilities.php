@@ -43,7 +43,7 @@ function echoErrors() {
     if(isset($_SESSION['errorMessage']) && !empty($_SESSION['errorMessage'])) {
         echo '<div class="errorMessage">';
         foreach ($_SESSION['errorMessage'] as $e) {
-            echo "<p>".$e.'</p>';
+            echo "<p>".$e."</p>";
             if($e !== end($_SESSION['errorMessage'])) {
                 echo '<br/>';
             }
@@ -60,7 +60,7 @@ function echoSuccess() {
     if(isset($_SESSION['successMessage']) && !empty($_SESSION['successMessage'])) {
         echo '<div class="successMessage">';
         foreach ($_SESSION['successMessage'] as $e) {
-            echo "<p>".$e.'</p>';
+            echo "<p>".$e."</p>";
             if($e !== end($_SESSION['successMessage'])) {
                 echo '<br/>';
             }

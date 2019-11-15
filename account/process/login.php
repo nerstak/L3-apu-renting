@@ -19,10 +19,10 @@ if(isset($_POST['loginForm'])) {
 }
 
 function loginProcess($login, mysqli $dbConnection) {
-    if($stmt = $dbConnection->prepare("SELECT password,idUser FROM user WHERE email=?")) {
+    if($stmt = $dbConnection->prepare("SELECT password,idUser,role FROM user WHERE email=?")) {
         $stmt->bind_param('s', $login['email']);
         $stmt->execute();
-        $stmt->bind_result($passwordHash,$id);
+        $stmt->bind_result($passwordHash,$id,$role);
         $stmt->fetch();
 
         if($passwordHash) {
@@ -32,17 +32,21 @@ function loginProcess($login, mysqli $dbConnection) {
                 $_SESSION['logged'] = true;
                 $_SESSION['email'] = $login['email'];
                 $_SESSION['idUser'] = $id;
+                if($role == "admin") {
+                    $_SESSION['admin'] = true;
+                }
+
                 header("Location: index.php");
                 return true;
             } else {
-                $_SESSION['errorMessage'] = "Incorrect password";
+                $_SESSION['errorMessage'][] = "Incorrect password";
             }
         } else {
-            $_SESSION['errorMessage'] = "Unknown email address";
+            $_SESSION['errorMessage'][] = "Unknown email address";
         }
     }
     if (!$stmt) {
-        $_SESSION['errorMessage'] = "Error of connection";
+        $_SESSION['errorMessage'][] = "Error of connection";
     }
     return false;
 }

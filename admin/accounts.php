@@ -15,7 +15,7 @@ checkEdit($edit);
 /* Processing URL */
 if($edit['flag']) {
     if(!editProcess($edit,$dbConnection,$errorMsg,$_POST['idEdit'],"index.php")) {
-        $_SESSION['errorMessage'] = $errorMsg;
+        $_SESSION['errorMessage'][] = $errorMsg;
         header("Location: index.php?content=edit&id=".$_POST['idUser']);
     }
 }
@@ -53,7 +53,7 @@ function checkEdit(&$edit) {
         if (isset($_POST['mailEdit']) && strlen($_POST['mailEdit']) < 255) {
             $edit['email'] = $_POST['mailEdit'];
         } else {
-            $_SESSION['errorMessage'] = "Error with mail address";
+            $_SESSION['errorMessage'][] = "Error with mail address";
             $edit['flag'] = false;
         }
 
@@ -62,7 +62,7 @@ function checkEdit(&$edit) {
             if($boolEval) {
                 $edit['passwordHash'] = password_hash($_POST['passwordEdit1'], PASSWORD_DEFAULT);
             }else {
-                $_SESSION['errorMessage'] = "Error with password";
+                $_SESSION['errorMessage'][] = "Error with password";
                 $edit['flag'] = false;
             }
         } else {
@@ -73,20 +73,20 @@ function checkEdit(&$edit) {
             $edit['firstName'] = $_POST['fornamesEdit'];
         } else {
             $edit['flag'] = false;
-            $_SESSION['errorMessage'] = "Error with first name";
+            $_SESSION['errorMessage'][] = "Error with first name";
         }
 
         if (isset($_POST['lastnamesEdit']) && strlen($_POST['lastnamesEdit']) < 255 && $edit['flag']) {
             $edit['lastName'] = $_POST['lastnamesEdit'];
         } else {
-            $_SESSION['errorMessage'] = "Error with last names";
+            $_SESSION['errorMessage'][] = "Error with last names";
             $edit['flag'] = false;
         }
 
         if (isset($_POST['addressEdit']) && strlen($_POST['addressEdit']) < 255 && $edit['flag']) {
             $edit['address'] = $_POST['addressEdit'];
         } else {
-            $_SESSION['errorMessage'] = "Error with address";
+            $_SESSION['errorMessage'][] = "Error with address";
             $edit['flag'] = false;
         }
 

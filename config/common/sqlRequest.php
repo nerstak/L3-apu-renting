@@ -290,3 +290,7 @@ function verifyUniquenessEmail(mysqli $dbConnection, $email, $id = -1)
     }
     return false;
 }
+
+function verifyUserInRental(mysqli $dbConnection, $id) {
+
+}
