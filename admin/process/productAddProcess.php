@@ -122,6 +122,7 @@ function addBody($product, $body, &$errors, mysqli $dbConnection)
         $stmt->bind_param('sdssdd', $body['sensor'], $body['weight'], $body['dimension'], $body['resolution'], $body['wireless'], $body['stabilizer']);
         $stmt->execute();
 
+        $_SESSION['successMessage'][] = "Product successfully added";
         return true;
     } else {
         unlink($product['path']);
@@ -148,6 +149,7 @@ function addLens($product, $lens, &$errors, mysqli $dbConnection)
         $stmt->bind_param('sdsssd', $lens['mount'], $lens['weight'], $lens['dimension'], $lens['focal'], $lens['aperture'], $lens['stabilizer']);
         $stmt->execute();
 
+        $_SESSION['successMessage'][] = "Product successfully added";
         return true;
     } else {
         unlink($product['path']);
@@ -174,7 +176,7 @@ function addTripod($product, $tripod, &$errors, mysqli $dbConnection)
         $stmt->bind_param('dsd', $tripod['weight'], $tripod['dimension'], $tripod['maxWeight']);
         $stmt->execute();
 
-        echo mysqli_error($dbConnection);
+        $_SESSION['successMessage'][] = "Product successfully added";
         return true;
     } else {
         unlink($product['path']);

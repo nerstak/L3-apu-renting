@@ -292,7 +292,7 @@ function verifyUniquenessEmail(mysqli $dbConnection, $email, $id = -1)
 
 /** Verify if an user has made rentals
  * @param mysqli $dbConnection Connection to database
- * @param $id of user
+ * @param $id int of user
  * @return int Nb of occurrence
  */
 function verifyUserInRental(mysqli $dbConnection, $id) {
@@ -313,6 +313,34 @@ function verifyUserInRental(mysqli $dbConnection, $id) {
  */
 function deleteAccount(mysqli $dbConnection, $id) {
     if ($stmt = $dbConnection->prepare("DELETE FROM user WHERE idUser=?")) {
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+    }
+}
+
+/** Verify if a product is in rentals
+ * @param mysqli $dbConnection Connection to database
+ * @param $id int of product
+ * @return int Nb of occurrence
+ */
+function verifyProductInRental(mysqli $dbConnection, $id) {
+    if ($stmt = $dbConnection->prepare("SELECT COUNT(*) FROM booking WHERE idEquipment=?")) {
+        $stmt->bind_param("i", $id);
+        $stmt->bind_result($nb);
+        $stmt->execute();
+        $stmt->fetch();
+
+        return $nb;
+    }
+    return -1;
+}
+
+/** Delete a from database
+ * @param mysqli $dbConnection
+ * @param $id int of product to delete
+ */
+function deleteProduct(mysqli $dbConnection, $id) {
+    if ($stmt = $dbConnection->prepare("DELETE FROM equipment WHERE idEquipment=?")) {
         $stmt->bind_param("i", $id);
         $stmt->execute();
     }

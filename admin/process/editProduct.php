@@ -51,6 +51,7 @@ switch ($product['type']) {
 }
 
 
+echo'<a href="process/deleteProduct.php?id='.$_GET['id'].'"><button type="button" class="btn-danger">Delete</button></a>';
 echo '<button type="submit" class="btn-success">Update</button>';
 echo '</form></div>';
 

@@ -139,9 +139,10 @@ function updateBody($product, $body, &$errors, mysqli $dbConnection)
         $stmt->execute();
         $stmt->close();
 
+        $_SESSION['successMessage'][] = "Product successfully edited";
         return true;
     }
-    $errors[] = "Unable to add product";
+    $errors[] = "Unable to update product";
     return false;
 }
 
@@ -162,9 +163,10 @@ function updateLens($product, $lens, &$errors, mysqli $dbConnection)
         $stmt->execute();
         $stmt->close();
 
+        $_SESSION['successMessage'][] = "Product successfully edited";
         return true;
     }
-    $errors[] = "Unable to add product";
+    $errors[] = "Unable to update product";
     return false;
 }
 
@@ -185,8 +187,9 @@ function updateTripod($product, $tripod, &$errors, mysqli $dbConnection)
         $stmt->execute();
         $stmt->close();
 
+        $_SESSION['successMessage'][] = "Product successfully edited";
         return true;
     }
-    $errors[] = "Unable to add product";
+    $errors[] = "Unable to update product";
     return false;
 }

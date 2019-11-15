@@ -17,6 +17,7 @@ include_once(VIEW_NAVIGATION);
 include_once(VIEW_ADMIN_NAV);
 
 echoErrors();
+echoSuccess();
 
 // Display different contents
 if (isset($_GET['content']) && $_GET['content'] == 'editEquipment' && isset($_GET['id']) && is_numeric($_GET['id'])) {
