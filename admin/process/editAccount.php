@@ -58,7 +58,10 @@ $select = $dataUser['visible'] == true ? "selected" : "";
 echo '<div><label>Visible: </label><br><select name="visibleEdit"><option value="0">False</option><option value="1" ' . $select . '>True</option></select></div>';
 
 
-echo'<button id="editButton" type="submit" name="editForm" class="btn-success">Edit account</button>
+echo'
+<a href="process/deleteUser.php?id='.$_GET['id'].'"><button type="button" class="btn-danger">Delete</button></a>
+<button id="editButton" type="submit" name="editForm" class="btn-success">Edit account</button>
+
             </form>
         </div>';
 

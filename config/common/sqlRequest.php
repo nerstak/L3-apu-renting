@@ -289,7 +289,31 @@ function verifyUniquenessEmail(mysqli $dbConnection, $email, $id = -1)
     }
     return false;
 }
-/*
-function verifyUserInRental(mysqli $dbConnection, $id) {
 
-}*/
+/** Verify if an user has made rentals
+ * @param mysqli $dbConnection Connection to database
+ * @param $id of user
+ * @return int Nb of occurrence
+ */
+function verifyUserInRental(mysqli $dbConnection, $id) {
+    if ($stmt = $dbConnection->prepare("SELECT COUNT(*) FROM booking WHERE idUser=?")) {
+        $stmt->bind_param("i", $id);
+        $stmt->bind_result($nb);
+        $stmt->execute();
+        $stmt->fetch();
+
+        return $nb;
+    }
+    return -1;
+}
+
+/** Delete an user from database
+ * @param mysqli $dbConnection
+ * @param $id int of user to delete
+ */
+function deleteAccount(mysqli $dbConnection, $id) {
+    if ($stmt = $dbConnection->prepare("DELETE FROM user WHERE idUser=?")) {
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+    }
+}

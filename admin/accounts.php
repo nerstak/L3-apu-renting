@@ -11,7 +11,6 @@ require_once(RES_SQL);
 
 $edit['flag'] = true;
 checkEdit($edit);
-var_dump($edit);
 
 /* Processing URL */
 if($edit['flag']) {
