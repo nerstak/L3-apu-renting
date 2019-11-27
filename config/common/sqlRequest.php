@@ -340,6 +340,8 @@ function verifyProductInRental(mysqli $dbConnection, $id) {
  * @param $id int of product to delete
  */
 function deleteProduct(mysqli $dbConnection, $id) {
+    $data = dataSelectionProduct($dbConnection,$id);
+    unlink(realpath($data['pathImage']));
     if ($stmt = $dbConnection->prepare("DELETE FROM equipment WHERE idEquipment=?")) {
         $stmt->bind_param("i", $id);
         $stmt->execute();

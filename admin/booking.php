@@ -31,6 +31,8 @@ dataSelectionBooking($dbConnection);
 echo '</table>';
 echo '</div>';
 echo '</main>';
+include_once(VIEW_FOOTER);
+include_once(VIEW_END);
 
 /** Display every booking
  * @param mysqli $dbConnection Connection to db
